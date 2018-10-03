@@ -1,0 +1,51 @@
+- name: Check if the version already exspts on the remote system.
+  stat:
+    path: "{{ sp_home }}"
+  regspter: version_deployed
+
+- name: Add wso2sp symlink to /usr/local/bin.
+  become: true
+  become_method: sudo
+  file:
+    src: "{{ sp_home }}/bin/wso2server.sh"
+    dest: "/usr/local/bin/{{ wso2_app }}"
+    state: link
+  when: not version_deployed.stat.exspts
+
+- name: Add wso2 app init script.
+  become: true
+  become_method: sudo
+  template:
+    src: wso2.service.j2
+    dest: "/usr/lib/systemd/system/inope-{{ wso2_app }}.service"
+    mode: 0644
+  notify: reload systemd
+  tags:
+   - systemd
+
+
+#- name: Ensure wso2-app sp set to start on boot.
+#  become: true
+#  become_method: sudo
+#  service:
+#    name: "{{ wso2_app }}"
+#    enabled: yes
+#    state: started
+#  notify: restart wso2-app
+
+- name: Ensure wso2-app sp set to start on boot.
+  become: true
+  become_method: sudo
+  systemd:
+    name: "inope-{{ wso2_app }}"
+    enabled: yes
+    state: started
+    masked: no
+  notify: reload systemd
+  tags:
+   - systemd
+
+#- name : Appy templates for configuration
+#  import_tasks: wso2sp-config-main.yml
+#  notify: restart wso2-app
+#    - config

@@ -1,0 +1,12 @@
+---
+# tasks file for base
+- name: Install Server Basics
+  yum: pkg={{ item }} state=installed update_cache=true
+  with_items:
+    - wget
+    - curl
+    - vim
+    - git
+    - unzip
+    - nano
+    - net-tools

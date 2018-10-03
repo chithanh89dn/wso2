@@ -1,0 +1,12 @@
+---
+# defaults file for wso2-sp
+wso2_app: wso2sp
+wso2sp_default_https_port: 9448
+home_dir: "/var/www/lgsp/"
+downloads_dir: "{{home_dir}}downloads/"
+products_dir: "{{home_dir}}products/"
+sp_home: "{{products_dir}}{{wso2_app}}-{{sp_version}}"
+JAVA_HOME: "/usr/java/default/"
+JRE_HOME: "{{ JAVA_HOME }}jre"
+sp_version: "4.2.0"
+wso2_app_offset: 5

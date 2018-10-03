@@ -1,0 +1,47 @@
+- name: Check if the version already exeits on the remote system.
+  stat:
+    path: "{{ ei_home }}"
+  register: version_deployed
+
+- name: Add wso2ei-bps symlink to /usr/local/bin.
+  file:
+    src: "{{ wso2bps_home }}/bin/wso2server.sh"
+    dest: "/usr/local/bin/{{ wso2bps_app }}"
+    state: link
+    mode: 0755
+  when: not version_deployed.stat.exists
+
+- name: Add wso2bps app init script.
+  template:
+    src: wso2bps.service.j2
+    dest: "/etc/systemd/system/{{ wso2bps_app }}.service"
+    mode: 0755
+  notify: reload systemd
+  tags:
+   - systemd
+
+
+#- name: Ensure wso2-app ei set to start on boot.
+#  become: true
+#  become_method: sudo
+#  service:
+#    name: "{{ wso2_app }}"
+#    enabled: yes
+#    state: started
+#  notify: restart wso2-app
+
+- name: Ensure wso2bps-app ei set to start on boot.
+  systemd:
+    name: "{{ wso2bps_app }}"
+    enabled: yes
+    state: started
+    masked: no
+  notify: reload systemd
+  tags:
+   - systemd
+
+
+
+#  import_tasks: wso2ei-config-main.yml
+#  notify: restart wso2-app
+#    - config

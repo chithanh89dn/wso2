@@ -1,0 +1,14 @@
+
+- name: Download WSO2 ei
+  get_url:
+    url: "https://github.com/wso2/product-ei/releases/download/v{{ ei_version }}/wso2ei-{{ ei_version }}.zip"
+    dest: "{{ home_dir }}downloads/wso2ei-{{ ei_version }}.zip"
+    checksum: md5:9f03d5f75a753b08868d341cbfba1272.
+    remote_src: yes
+
+- name: Extract WSO2 ei
+  unarchive:
+    src: "{{ home_dir }}downloads/wso2ei-{{ ei_version }}.zip"
+    creates: "{{ home_dir }}products/wso2ei-{{ ei_version }}"
+    dest: "{{ home_dir }}products"
+    remote_src: yes

@@ -1,0 +1,46 @@
+- name: Check if the version already exeits on the remote system.
+  stat:
+    path: "{{ ei_home }}"
+  register: version_deployed
+
+- name: Add wso2ei-ana symlink to /usr/local/bin.
+  file:
+    src: "{{ wso2ana_home }}/bin/wso2server.sh"
+    dest: "/usr/local/bin/{{ wso2ana_app }}"
+    state: link
+    mode: 0755
+  when: not version_deployed.stat.exists
+
+- name: Add wso2ana app init script.
+  template:
+    src: wso2ana.service.j2
+    dest: "/etc/systemd/system/{{ wso2ana_app }}.service"
+    mode: 0755
+  notify: reload systemd
+  tags:
+   - systemd
+
+#- name: Ensure wso2-app ei set to start on boot.
+#  become: true
+#  become_method: sudo
+#  service:
+#    name: "{{ wso2_app }}"
+#    enabled: yes
+#    state: started
+#  notify: restart wso2-app
+
+- name: Ensure wso2ana-app set to start on boot.
+  systemd:
+    name: "{{ wso2ana_app }}"
+    enabled: yes
+    state: started
+    masked: no
+  notify: reload systemd
+  tags:
+   - systemd
+
+
+
+#  import_tasks: wso2ei-config-main.yml
+#  notify: restart wso2-app
+#    - config

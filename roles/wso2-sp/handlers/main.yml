@@ -1,0 +1,13 @@
+---
+# handlers file for wso2-sp
+- name: restart wso2-app
+  become: true
+  become_method: sudo
+  systemd:
+    name: "inope-{{ wso2_app }}"
+    state: restarted
+- name: reload systemd
+  become: true
+  systemd:
+    name: "inope-{{ wso2_app }}"
+    daemon_reload: yes

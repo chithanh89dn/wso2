@@ -1,0 +1,31 @@
+---
+# defaults file for wso2-ei
+home_dir: "/var/www/lgsp/"
+downloads_dir: "{{home_dir}}downloads/"
+products_dir: "{{home_dir}}products/"
+ei_home: "{{products_dir}}{{wso2_app}}-{{ei_version}}"
+JAVA_HOME: "/usr/java/default"
+JRE_HOME: "{{ JAVA_HOME }}jre"
+
+wso2_app: wso2ei
+wso2_app_offset: 0
+wso2_default_https_port: 9443
+ei_version: "6.3.0"
+
+wso2ana_app: wso2ana
+wso2ana_app_offset: 0
+wso2ana_default_https_port: 9444
+ana_version: "6.3.0"
+wso2ana_home: "{{ei_home}}/wso2/analytics"
+
+wso2bps_app: wso2bps
+wso2bps_app_offset: 0
+wso2bps_default_https_port: 9445
+bps_version: "6.3.0"
+wso2bps_home: "{{ei_home}}/wso2/business-process"
+
+wso2mb_app: wso2mb
+wso2mb_app_offset: 0
+wso2mb_default_https_port: 9446
+mb_version: "6.3.0"
+wso2mb_home: "{{ei_home}}/wso2/broker"

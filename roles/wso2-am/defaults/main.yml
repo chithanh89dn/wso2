@@ -1,0 +1,12 @@
+---
+# defaults file for wso2-is
+wso2_app: wso2am
+wso2is_default_https_port: 9447
+home_dir: "/var/www/lgsp/"
+downloads_dir: "{{home_dir}}downloads/"
+products_dir: "{{home_dir}}products/"
+am_home: "{{products_dir}}{{wso2_app}}-{{am_version}}"
+JAVA_HOME: "/usr/java/default/"
+JRE_HOME: "{{ JAVA_HOME }}jre"
+am_version: "2.5.0"
+wso2_app_offset: 4

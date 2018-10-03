@@ -1,0 +1,48 @@
+---
+# handlers file for wso2-ei
+#- name: "Reload systemctl daemon"
+#  command: systemctl daemon-reload
+
+- name: restart wso2-app
+  systemd:
+    name: "{{ wso2_app }}"
+    state: restarted
+
+- name: reload systemd
+  systemd:
+    name: "{{ wso2_app }}"
+    daemon_reload: yes
+    state: restarted
+
+- name: restart wso2ana-app
+  systemd:
+    name: "{{ wso2ana_app }}"
+    state: restarted
+
+- name: reload systemd
+  systemd:
+    name: "{{ wso2ana_app }}"
+    daemon_reload: yes
+    state: restarted
+
+- name: restart wso2mb-app
+  systemd:
+    name: "{{ wso2mb_app }}"
+    state: restarted
+
+- name: reload systemd
+  systemd:
+    name: "{{ wso2mb_app }}"
+    daemon_reload: yes
+    state: restarted
+
+- name: restart wso2bps-app
+  systemd:
+    name: "{{ wso2bps_app }}"
+    state: restarted
+
+- name: reload systemd
+  systemd:
+    name: "{{ wso2bps_app }}"
+    daemon_reload: yes
+    state: restarted

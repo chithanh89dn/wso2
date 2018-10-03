@@ -1,0 +1,23 @@
+- name: Install the MySQL repo.
+  yum:
+   name: http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm
+   state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Override variables for MySQL (RedHat).
+  set_fact:
+   mysql_daemon: mysqld
+   mysql_packages: ['mysql-server']
+   mysql_log_error: /var/log/mysqld.log
+   mysql_syslog_tag: mysqld
+   mysql_pid_file: /var/run/mysqld/mysqld.pid
+   mysql_socket: /var/lib/mysql/mysql.sock
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure MySQL packages are installed.
+  yum: "name={{ item }} state=present enablerepo={{ mysql_enablerepo }}"
+  with_items: "{{ mysql_packages }}"
+  register: rh_mysql_install_packages
+
+- name: Ensure MySQL Python libraries are installed.
+  yum: "name=MySQL-python state=present enablerepo={{ mysql_enablerepo }}"

@@ -1,0 +1,21 @@
+[Unit]
+Description={{ wso2ana_app }} init script
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+LimitNOFILE=65535
+Type=forking
+User=root
+
+Environment=JAVA_HOME={{ JAVA_HOME }}
+Environment=JAVA_OPTS=
+
+PID_FILE={{ wso2ana_home }}/wso2carbon.pid
+ExecStart={{ wso2ana_home }}/bin/wso2server.sh portOffset={{wso2ana_app_offset}} start
+ExecStop={{ wso2ana_home }}/bin/wso2server.sh portOffset={{wso2ana_app_offset}} stop
+ExecRestart={{ wso2ana_home }}/bin/wso2server.sh portOffset={{wso2ana_app_offset}} restart
+TimeoutSec=120
+
+[Install]
+WantedBy=multi-user.target

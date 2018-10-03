@@ -1,0 +1,9 @@
+- hosts: remote
+  become_user: root
+  roles:
+   - base
+   - mysql
+   - java
+   - wso2-is
+   - wso2-am
+   - wso2-ei

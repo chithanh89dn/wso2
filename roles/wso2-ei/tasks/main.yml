@@ -1,0 +1,30 @@
+---
+# tasks file for wso2-ei
+- name: Creates directory for storing downloads
+  file: path="{{downloads_dir}}" state=directory
+
+- name: Creates directory for storing products
+  file: path="{{products_dir}}" state=directory
+
+#- name: Creates directory for storing services scripts
+#  file: path="{{services_dir}}" state=directory
+
+- name: Download mysql-connector-java-8.0.12.tar.gz
+  get_url:
+    remote_src: yes
+    url: "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.12.tar.gz"
+    dest: "{{ home_dir }}downloads/mysql-connector-java-8.0.12.tar.gz"
+    checksum: md5:368c686aec816ca7d2ad9c98ac0e739f
+
+- name: Extract mysql-connector
+  unarchive:
+    src: "{{ home_dir }}downloads/mysql-connector-java-8.0.12.tar.gz"
+    creates: "{{ home_dir }}downloads/mysql-connector"
+    dest: "{{ home_dir }}downloads"
+    remote_src: yes
+
+- include_tasks: setup.yml
+- include_tasks: configure-ei.yml
+- include_tasks: configure-ana.yml
+- include_tasks: configure-bps.yml
+- include_tasks: configure-mb.yml

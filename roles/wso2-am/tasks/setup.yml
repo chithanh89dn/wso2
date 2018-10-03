@@ -1,0 +1,14 @@
+
+- name: Download WSO2 AM
+  get_url:
+    url: "https://github.com/wso2/product-apim/releases/download/v{{ am_version }}/wso2am-{{ am_version }}.zip"
+    dest: "{{ home_dir }}downloads/wso2am-{{ am_version }}.zip"
+    checksum: md5:d165312a64932078666c3d6eae0f855f
+    remote_src: yes
+
+- name: Extract WSO2 AM
+  unarchive:
+    src: "{{ home_dir }}downloads/wso2am-{{ am_version }}.zip"
+    creates: "{{ home_dir }}products/wso2am-{{ am_version }}"
+    dest: "{{ home_dir }}products"
+    remote_src: yes

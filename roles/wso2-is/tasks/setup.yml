@@ -1,0 +1,14 @@
+
+- name: Download WSO2 IS
+  get_url:
+    url: "https://github.com/wso2/product-is/releases/download/v{{ is_version }}/wso2is-{{ is_version }}.zip"
+    dest: "{{ home_dir }}downloads/wso2is-{{ is_version }}.zip"
+    checksum: md5:1e6e1f881e9740399231e3e3765d4535
+    remote_src: yes
+
+- name: Extract WSO2 IS
+  unarchive:
+    src: "{{ home_dir }}downloads/wso2is-{{ is_version }}.zip"
+    creates: "{{ home_dir }}products/wso2is-{{ is_version }}"
+    dest: "{{ home_dir }}products"
+    remote_src: yes

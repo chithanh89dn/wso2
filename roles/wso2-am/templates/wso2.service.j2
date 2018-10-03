@@ -1,0 +1,21 @@
+[Unit]
+Description={{ wso2_app }} init script
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+LimitNOFILE=65535
+Type=forking
+User=root
+
+Environment=JAVA_HOME={{ JAVA_HOME }}
+Environment=JAVA_OPTS=
+
+PID_FILE={{ am_home }}/wso2carbon.pid
+ExecStart={{ am_home }}/bin/wso2server.sh -DportOffset={{wso2_app_offset}} start
+ExecStop={{ am_home }}/bin/wso2server.sh -DportOffset={{wso2_app_offset}} stop
+ExecRestart={{ am_home }}/bin/wso2server.sh -DportOffset={{wso2_app_offset}} restart
+TimeoutSec=120
+
+[Install]
+WantedBy=multi-user.target
